@@ -1,0 +1,16 @@
+.table tr td {
+  border-right: 1px solid #e1e1e1;
+}
+
+.table thead tr th:not(:first-child) {
+  border-right: 1px solid #e1e1e1;
+}
+
+.date {
+  font-weight: 400;
+  opacity: 0.5;
+}
+
+.table th:hover {
+  background-color: #f8f9fa;
+}

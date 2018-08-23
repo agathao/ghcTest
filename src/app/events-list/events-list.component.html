@@ -1,0 +1,33 @@
+
+<div *ngFor="let eventsByDay of events" style="padding-top: 20px">
+  <div class="row" style="padding-left:20px">
+    <h1>{{eventsByDay.day}}</h1>
+  </div>
+
+  <div class="row" style="padding:10px">
+
+  <div *ngFor="let event of eventsByDay.events; let i = index" class="col-sm-4 mt-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ event.name }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ event.time }}</h6>
+        <p class="card-text text-justify">{{ event.description }} ...</p>
+        <div class="row">
+          <div class="col-sm">
+            <span class="float-left">
+              <a href="#" class="btn btn-link btn-sm">Read more</a>
+            </span>
+          </div>
+          <div class="col-sm">
+            <span class="float-right">
+              <a href="#" *ngIf="!event.inCalendar" class="btn btn-primary btn-sm">Add to Calendar</a>
+              <a href="#" *ngIf="event.inCalendar" class="btn btn-danger btn-sm">Remove from Calendar</a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
