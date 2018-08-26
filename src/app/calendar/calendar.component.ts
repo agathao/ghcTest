@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { EventsService } from '../events.service';
+import { EventsListItem } from '../eventsListItem';
 
 @Component({
   selector: 'app-calendar',
@@ -6,15 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit {
-  // columns: any;
+  calendarEvents: EventsListItem[];
 
-  constructor() { }
+  constructor(private eventsService: EventsService) { }
+
+  getCalendarEvents(): void {
+    this.calendarEvents = this.eventsService.getCalendarEvents();
+  }
 
   ngOnInit() {
-    // this.columns = [1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8,9,10,];
-    // this.range() = (value) => {
-    //   return new Array(value);
-    // };
+    this.getCalendarEvents();
   }
 
 }

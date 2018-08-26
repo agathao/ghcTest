@@ -9,13 +9,15 @@ import { CalendarUtilsModule } from './calendar-utils/module';
 import { CalendarComponent } from './calendar/calendar.component';
 import { EventsListComponent } from './events-list/events-list.component';
 import { EventsCalendarComponent } from './events-calendar/events-calendar.component';
+import { LimitToPipe }   from './limit-to.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     CalendarComponent,
     EventsListComponent,
-    EventsCalendarComponent
+    EventsCalendarComponent,
+    LimitToPipe
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,8 @@
 export class Event {
-  id: number;
-  title: string;
+  id: string;
+  name: string;
   description: string;
-  time: Date;
-  selected: boolean;
+  startTime: string;
+  endTime: string;
+  inCalendar: boolean;
 }
