@@ -8,12 +8,15 @@
   </div>
 
   <div class="row p-1">
-    <div *ngFor="let event of eventsByDay.events; let i = index" class="col-sm-4 mt-4">
-      <div class="card">
+    <div *ngFor="let event of eventsByDay.events; let i = index" class="col-sm-3 mt-4">
+      <div class="card border-secondary">
+        <div class="card-header">
+          {{ event.name }}
+        </div>
         <div class="card-body">
-          <h5 class="card-title">{{ event.name }}</h5>
           <h6 class="card-subtitle mb-2 text-muted">
             {{ event.startTime | date: 'hh:mm a' }} - {{ event.endTime | date: 'hh:mm a' }}
+            {{ event.location ? ' | Location: ' + event.location : ''}}
           </h6>
           <p class="card-text text-justify">{{ event.description | limitTo : 200 }}</p>
           <div class="row">

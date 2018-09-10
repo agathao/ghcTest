@@ -5,4 +5,7 @@ export class Event {
   startTime: string;
   endTime: string;
   inCalendar: boolean;
+  track: string;
+  location: string;
+  speakers: string;
 }

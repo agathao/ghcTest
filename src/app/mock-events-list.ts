@@ -10,7 +10,9 @@ export const EVENTSLIST: EventsListItem[] = [
           startTime: "2018-09-26T06:45:00.000Z",
           endTime: "2018-09-26T07:45:00.000Z",
           description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco",
-          inCalendar: true
+          inCalendar: true,
+          track: 'Community',
+          location: 'HIL Ballroom of Americas A'
         },
         {
           id: "2",
@@ -18,7 +20,9 @@ export const EVENTSLIST: EventsListItem[] = [
           startTime: "2018-09-26T09:00:00.000Z",
           endTime: "2018-09-26T10:30:00.000Z",
           description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco",
-          inCalendar: true
+          inCalendar: true,
+          location: 'Toyota Center',
+          speakers: 'Jessica O. Matthews, Padmasree Warrior'
         },
         {
           id: "3",
@@ -26,7 +30,8 @@ export const EVENTSLIST: EventsListItem[] = [
           startTime: "2018-09-26T11:00:00.000Z",
           endTime: "2018-09-26T18:00:00.000Z",
           description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco",
-          inCalendar: false
+          inCalendar: false,
+          location: 'HIL Meeting Room 340'
         },
         {
           id: "4",
@@ -34,7 +39,8 @@ export const EVENTSLIST: EventsListItem[] = [
           startTime: "2018-09-26T11:00:00.000Z",
           endTime: "2018-09-26T18:00:00.000Z",
           description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco",
-          inCalendar: false
+          inCalendar: false,
+          location: 'HIL Meeting Room 339'
         },
         {
           id: "5",
@@ -42,7 +48,9 @@ export const EVENTSLIST: EventsListItem[] = [
           startTime: "2018-09-26T11:30:00.000Z",
           endTime: "2018-09-26T12:30:00.000Z",
           description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco",
-          inCalendar: false
+          inCalendar: false,
+          location: 'HIL Lanier B',
+          speakers: 'Irene Ryabaya, Diana Murakhovskaya'
         }
       ]
   },
