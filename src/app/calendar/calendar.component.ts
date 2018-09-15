@@ -13,7 +13,8 @@ export class CalendarComponent implements OnInit {
   constructor(private eventsService: EventsService) { }
 
   getCalendarEvents(): void {
-    this.calendarEvents = this.eventsService.getCalendarEvents();
+    this.eventsService.getCalendarEvents()
+     .subscribe(calendarEvents => this.calendarEvents = calendarEvents);
   }
 
   ngOnInit() {

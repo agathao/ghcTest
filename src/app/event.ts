@@ -1,11 +1,16 @@
 export class Event {
-  id: string;
+  id: number;
   name: string;
-  description: string;
+  location?: string;
   startTime: string;
   endTime: string;
-  inCalendar: boolean;
-  track: string;
-  location: string;
-  speakers: string;
+
+  speakers?: string;
+  description: string;
+  isSelected?: boolean;
+  hasConflict?: boolean;
+
+  audienceLevel?: string;
+  focusArea?: string;
+  track?: string;
 }

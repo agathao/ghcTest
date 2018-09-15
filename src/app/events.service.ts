@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Event } from './event';
 import { EventsListItem } from './eventsListItem';
 import { EVENTSLIST } from './mock-events-list';
 import { CALENDAREVENTSLIST } from './mock-calendar-events-list';
@@ -8,14 +11,16 @@ import { CALENDAREVENTSLIST } from './mock-calendar-events-list';
 })
 export class EventsService {
 
-  constructor() { }
+  private eventsUrl = 'https://liks2l9a0b.execute-api.us-east-1.amazonaws.com/Stage/ghcsessions';
 
-  getEvents(): EventsListItem[] {
-    return EVENTSLIST;
+  constructor(private http: HttpClient) { }
+
+  getEvents(): Observable<Event[]> {
+    return of(EVENTSLIST);
   }
 
-  getCalendarEvents(): EventsListItem[] {
-    return CALENDAREVENTSLIST;
+  getCalendarEvents(): Observable<EventsListItem[]> {
+    return of(CALENDAREVENTSLIST);
   }
 
 }

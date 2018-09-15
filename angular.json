@@ -24,7 +24,7 @@
             ],
             "styles": [
               {
-                "input": "./node_modules/angular-calendar/css/angular-calendar.css"
+                "input": "./node_modules/open-iconic/font/css/open-iconic-bootstrap.min.css"
               },
               "src/styles.css"
             ],

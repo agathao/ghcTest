@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ event.name }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <span class="oi oi-clock" title="Time" aria-hidden="true"></span>
+    {{ event.startTime | date: 'hh:mm a' }} - {{ event.endTime | date: 'hh:mm a' }}
+  <span class="oi oi-map-marker pl-2" *ngIf="event.location" title="Location" aria-hidden="true"></span>
+    {{ event.location ? event.location : ''}}
+  <span class="oi oi-people pl-2" title="Speakers" aria-hidden="true"></span>
+    {{ event.speakers ? 'Speakers: ' + event.speakers : '' }}
+  <span class="oi oi-eye pl-2" *ngIf="event.focusArea" title="Focus Area" aria-hidden="true"></span>
+    {{ event.focusArea ? 'Focus Area: ' + event.focusArea : ''}}
+    <span class="oi oi-chevron-right pl-2" *ngIf="event.track" title="Track" aria-hidden="true"></span>
+      {{ event.track ? 'Track: ' + event.track : ''}}
+
+  <p></p> 
+  <p>{{ event.description }}</p>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-primary" (click)="activeModal.close('Close click')">Close</button>
+</div>

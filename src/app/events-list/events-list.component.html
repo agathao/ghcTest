@@ -2,33 +2,37 @@
   <h1>All Events</h1>
 </div>
 
-<div class="pt-4" *ngFor="let eventsByDay of events">
+<div class="pt-4" *ngFor="let eventsByDay of eventsList">
   <div class="row pl-4">
     <h2>{{ eventsByDay.day | date:'EEEE' }}</h2>
   </div>
 
   <div class="row p-1">
-    <div *ngFor="let event of eventsByDay.events; let i = index" class="col-sm-3 mt-4">
+    <div *ngFor="let event of eventsByDay.events; let i = index" class="col-sm-4 mt-4">
       <div class="card border-secondary">
         <div class="card-header">
           {{ event.name }}
         </div>
         <div class="card-body">
           <h6 class="card-subtitle mb-2 text-muted">
-            {{ event.startTime | date: 'hh:mm a' }} - {{ event.endTime | date: 'hh:mm a' }}
-            {{ event.location ? ' | Location: ' + event.location : ''}}
+            <span class="oi oi-clock" title="Time" aria-hidden="true"></span>
+              {{ event.startTime | date: 'hh:mm a' }} - {{ event.endTime | date: 'hh:mm a' }}
+            <span class="oi oi-map-marker pl-2" *ngIf="event.location" title="Location" aria-hidden="true"></span>
+              {{ event.location ? event.location : ''}}
           </h6>
           <p class="card-text text-justify">{{ event.description | limitTo : 200 }}</p>
           <div class="row">
-            <div class="col-sm">
+            <div class="col-sm-6">
               <span class="float-left">
-                <a href="#" class="btn btn-link btn-sm p-0">Read more</a>
+                <button class="btn btn-lg btn-link" (click)="openEventDetails(event)">Read More</button>
               </span>
             </div>
-            <div class="col-sm">
+            <div class="col-sm-6">
               <span class="float-right">
-                <a href="#" *ngIf="!event.inCalendar" class="btn btn-primary btn-sm">Add to Calendar</a>
-                <a href="#" *ngIf="event.inCalendar" class="btn btn-danger btn-sm">Remove from Calendar</a>
+                <a href="#" *ngIf="!event.isSelected" class="btn btn-primary btn-sm">
+                  Add to Calendar 
+                </a>
+                <a href="#" *ngIf="event.isSelected" class="btn btn-danger btn-sm">Remove from Calendar</a>
               </span>
             </div>
           </div>
