@@ -36,6 +36,10 @@
               {{ session.location ? session.location : ''}}
           </h6>
 
+          <p class="card-text text-center" *ngIf="session.hasConfict">
+            This session conflicts with another on your calendar
+          </p>
+
           <p class="card-text text-justify" *ngIf="session.description">
             {{ session.description | limitTo : 200 }}
           </p>

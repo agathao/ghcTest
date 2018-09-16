@@ -52,14 +52,13 @@ export class CalendarComponent implements OnInit {
   }
 
   /**
-  * Initialize the sessions data on start time
+  * Upon initialization, retrieve all the sessions for display
   */
   ngOnInit() {
-    //Subscribe to any change in the session data
     this.sessionsUpdateSubscription = this.sessionsService
-      .ghcSessionsChange.subscribe(sessions => this.setCalendarEvents(sessions))
+      .ghcSessionsChange.subscribe(sessions =>
+        this.setCalendarEvents(sessions));
 
-    this.sessionsService.getSessions().subscribe();
   }
 
   ngOnDestroy() {

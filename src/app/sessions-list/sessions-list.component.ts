@@ -46,7 +46,6 @@ export class SessionsListComponent implements OnInit {
     this.sessionsUpdateSubscription = this.sessionsService
       .ghcSessionsChange.subscribe(sessions => this.setSessions(sessions));
 
-    this.sessionsService.getSessions().subscribe();
   }
 
   ngOnDestroy() {

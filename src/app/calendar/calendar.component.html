@@ -3,8 +3,8 @@
 </div>
 
 <div class="row pb-4 pr-2 justify-content-center">
-  <div *ngIf="calendarEvents === undefined">
-    Your calendar is currently empty
+  <div *ngIf="!calendarEvents || calendarEvents.length == 0">
+    <h4>Your calendar is currently empty</h4>
   </div>
   <div
     [ngClass]="{'col-sm-4': true, 'text-center': true, 'border-right': !isLast}"
@@ -17,7 +17,7 @@
 
     <button
       type="button"
-      class="btn btn-sm btn-outline-info col-sm-12 mt-2 mb-2"
+      [ngClass]="{'btn': true , 'btn-sm': true, 'btn-outline-info': !session.hasConflict, 'btn-outline-danger': session.hasConflict, 'col-sm-12': true, 'mt-2': true, 'mb-2': true}"
       *ngFor="let session of calendarDay.sessions"
       (click)="openSessionDetails(session)"
     >
