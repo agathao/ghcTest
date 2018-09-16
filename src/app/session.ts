@@ -1,4 +1,4 @@
-export class Event {
+export class Session {
   id: number;
   name: string;
   location?: string;

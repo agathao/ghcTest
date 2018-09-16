@@ -1,6 +1,6 @@
-import { Event } from './event';
+import { Session } from './session';
 
-export const EVENTSLIST: Event[] = [
+export const SESSIONSLIST: Session[] = [
         {
           id: 1,
           name: "Community Volunteer Orientation",
@@ -31,15 +31,6 @@ export const EVENTSLIST: Event[] = [
           location: 'HIL Meeting Room 340'
         },
         {
-          id: 4,
-          name: "Speaker Lounge",
-          startTime: "2018-09-26T11:00:00.000Z",
-          endTime: "2018-09-26T18:00:00.000Z",
-          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco",
-          isSelected: false,
-          location: 'HIL Meeting Room 339'
-        },
-        {
           id: 5,
           name: "CR201: The Art of Self-Promotion: How to Beat the Bragging Taboo",
           startTime: "2018-09-26T11:30:00.000Z",
@@ -50,12 +41,13 @@ export const EVENTSLIST: Event[] = [
           speakers: 'Irene Ryabaya, Diana Murakhovskaya'
         },
         {
-          id: 6,
-          name: "Technical Executive Forum (Invite Only)",
-          startTime: "2018-09-27T07:45:00.000Z",
-          endTime: "2018-09-27T17:30:00.000Z",
+          id: 4,
+          name: "Speaker Lounge",
+          startTime: "2018-09-26T11:00:00.000Z",
+          endTime: "2018-09-26T18:00:00.000Z",
           description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco",
-          isSelected: false
+          isSelected: false,
+          location: 'HIL Meeting Room 339'
         },
         {
           id: 7,
@@ -64,6 +56,14 @@ export const EVENTSLIST: Event[] = [
           endTime: "2018-09-27T17:30:00.000Z",
           description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco",
           isSelected: true
+        },
+        {
+          id: 6,
+          name: "Technical Executive Forum (Invite Only)",
+          startTime: "2018-09-27T07:45:00.000Z",
+          endTime: "2018-09-27T17:30:00.000Z",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco",
+          isSelected: false
         },
         {
           id: 8,

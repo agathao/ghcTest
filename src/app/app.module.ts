@@ -3,19 +3,19 @@ import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { AppComponent } from './app.component';
 import { LimitToPipe } from './limit-to.pipe';
+import { AppComponent } from './app.component';
 import { CalendarComponent } from './calendar/calendar.component';
-import { EventsListComponent } from './events-list/events-list.component';
-import { EventDetailComponent } from './event-detail/event-detail.component';
+import { SessionsListComponent } from './sessions-list/sessions-list.component';
+import { SessionDetailComponent } from './session-detail/session-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CalendarComponent,
-    EventsListComponent,
+    SessionsListComponent,
     LimitToPipe,
-    EventDetailComponent
+    SessionDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +23,7 @@ import { EventDetailComponent } from './event-detail/event-detail.component';
     HttpClientModule
   ],
   entryComponents: [
-    EventDetailComponent
+    SessionDetailComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

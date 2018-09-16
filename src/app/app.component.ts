@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'GHC Event Schedule';
-  description = 'View all events been held at GHC and add the ones you are most interested in to your calendar.';
+  title = 'GHC Sessions Scheduler';
+  description = 'View all sessions been held at GHC and add the ones you are most interested in to your calendar.';
 }
