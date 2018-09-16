@@ -12,19 +12,23 @@ import { EventDetailComponent } from '../event-detail/event-detail.component';
 export class EventsListComponent implements OnInit {
   eventsList: EventsListItem[];
 
+
   constructor(private eventsService: EventsService,
     private modalService: NgbModal) {
   }
 
   getEventsList(): void {
+    //TODO: make this global
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     this.eventsService.getEvents()
      .subscribe(events => {
 
        //group events by the day of the week when they occur
        var groups = events.reduce(function(obj,event){
+
          const eventDate = new Date(event.startTime);
-         const key = eventDate.getDay();
+         const key = days[eventDate.getDay()];
 
          obj[key] = obj[key] || [];
          obj[key].push(event);
@@ -54,4 +58,7 @@ export class EventsListComponent implements OnInit {
     modalRef.componentInstance.event = event;
   }
 
+  onScrollToTop() {
+    window.document.getElementById('description').scrollIntoView();
+  }
 }
