@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SessionsService } from '../sessions.service';
+import { SessionDetailComponent } from '../session-detail/session-detail.component';
 import { SessionsByDay } from '../sessionsByDay';
 import { Session } from '../session';
 import SessionUtil from '../shared/session-util';
@@ -16,7 +18,8 @@ import SessionUtil from '../shared/session-util';
 export class CalendarComponent implements OnInit {
   calendarEvents: SessionsByDay[];
 
-  constructor(private sessionsService: SessionsService) { }
+  constructor(private sessionsService: SessionsService,
+    private modalService: NgbModal) { }
 
   /**
   * Component responsible for retrieving and setting the events currently
@@ -51,6 +54,15 @@ export class CalendarComponent implements OnInit {
   */
   ngOnInit() {
     this.getCalendarEvents();
+  }
+
+  /**
+  * Open the detailed view of a session
+  * @param session - the session for which the detailed view will be displayed
+  */
+  openSessionDetails(session: Session): void {
+    const modalRef = this.modalService.open(SessionDetailComponent);
+    modalRef.componentInstance.session = session;
   }
 
 }

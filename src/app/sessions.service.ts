@@ -31,8 +31,6 @@ export class SessionsService {
     //   tap(sessions => this.log('fetched sessions')),
     //   catchError(this.handleError('getSessions', []))
     // );
-    console.log("returning");
-    console.log(SESSIONSLIST)
     return of(SESSIONSLIST);
   }
 

@@ -16,6 +16,7 @@
       type="button"
       class="btn btn-sm btn-outline-info col-sm-12 mt-2 mb-2"
       *ngFor="let session of calendarDay.sessions"
+      (click)="openSessionDetails(session)"
     >
       {{ session.startTime | date: 'hh:mm a' }} - {{ session.endTime | date: 'hh:mm a' }}: {{ session.name }}
     </button>
