@@ -36,14 +36,22 @@
       {{ session.track ? 'Track: ' + session.track : ''}}
 
   <p></p>
-  <p>{{ session.description }}</p>
+  <p *ngIf="session.description">{{ session.description }}</p>
 </div>
 
 <div class="modal-footer">
-  <button *ngIf="!session.isSelected" class="btn btn-primary btn-sm">
+  <button
+    *ngIf="!session.isSelected"
+    class="btn btn-primary btn-sm"
+    (click)="addToCalendar(session.id)"
+  >
     Add to Calendar
   </button>
-  <button *ngIf="session.isSelected" class="btn btn-danger btn-sm">
+  <button
+    *ngIf="session.isSelected"
+    class="btn btn-danger btn-sm"
+    (click)="removeFromCalendar(session.id)"
+  >
     Remove from Calendar
   </button>
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Session } from './session';
@@ -20,18 +20,47 @@ export class SessionsService {
   private getSessionsUrl = 'https://liks2l9a0b.execute-api.us-east-1.amazonaws.com/Stage/ghcsessions';
   private updateSessionsBaseUrl = 'https://q4fhvualcc.execute-api.us-east-1.amazonaws.com/Stage/ghcsessions/';
 
-  constructor(private http: HttpClient) { }
+  ghcSessionsChange: Subject<Session[]> = new Subject<Session[]>();
+
+  constructor(private http: HttpClient) {
+  }
 
   /**
   * Get all GHC Sessions from the server
   */
   getSessions(): Observable<Session[]> {
-    // console.log(this.httpOptions);
-    // return this.http.get<Session[]>(this.getSessionsUrl).pipe(
-    //   tap(sessions => this.log('fetched sessions')),
-    //   catchError(this.handleError('getSessions', []))
-    // );
-    return of(SESSIONSLIST);
+    return this.http.get<Session[]>(this.getSessionsUrl)
+    .pipe(
+      tap(response => {
+        this.log('fetched sessions');
+      }),
+      map(
+        response => {
+          return response.map(
+            //Convert server session to the format that the front end expects
+            (serverSession) => {
+
+              var startTime = serverSession.startDate + " " + serverSession.startTime + " EST";
+              var endTime = serverSession.startDate + " " + serverSession.endTime + " EST";
+
+              serverSession.startTime = new Date(startTime);
+              serverSession.endTime = new Date(endTime);
+
+              serverSession.isSelected ? serverSession.isSelected = true
+                : serverSession.isSelected = false;
+              serverSession.hasConflict ? serverSession.hasConflict = true
+                : serverSession.hasConflict = false;
+
+              return serverSession;
+            }
+          )
+        }
+      ),
+      //Propagate change in the sessions to all subscribers
+      tap(sessions => this.ghcSessionsChange.next(sessions)),
+      catchError(this.handleError('getSessions', []))
+    );
+    // return of(SESSIONSLIST);
   }
 
   /**
@@ -46,9 +75,10 @@ export class SessionsService {
       isSelected: isSelected ? 1 : 0
     };
 
-    return this.http.put(this.updateSessionsBaseUrl + sessionId, updateInfo,
+    return this.http.post(this.updateSessionsBaseUrl + sessionId, updateInfo,
       httpOptions).pipe(
         tap(_ => console.log(`updated session id=${sessionId}`)),
+        tap(_ => this.getSessions().subscribe()),
         catchError(this.handleError<any>('updateSession'))
     );
   }

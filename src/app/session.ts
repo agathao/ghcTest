@@ -2,8 +2,8 @@ export class Session {
   id: number;
   name: string;
   location?: string;
-  startTime: string;
-  endTime: string;
+  startTime: Date;
+  endTime: Date;
 
   speakers?: string;
   description: string;
@@ -13,4 +13,6 @@ export class Session {
   audienceLevel?: string;
   focusArea?: string;
   track?: string;
+
+  startDate?: string;
 }

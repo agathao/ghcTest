@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
 import { SessionsService } from '../sessions.service';
 import { SessionDetailComponent } from '../session-detail/session-detail.component';
 import { SessionsByDay } from '../sessionsByDay';
@@ -17,17 +18,17 @@ import SessionUtil from '../shared/session-util';
 })
 export class CalendarComponent implements OnInit {
   calendarEvents: SessionsByDay[];
+  sessionsUpdateSubscription: Subscription;
 
   constructor(private sessionsService: SessionsService,
-    private modalService: NgbModal) { }
+    private modalService: NgbModal) {
+    }
 
   /**
-  * Component responsible for retrieving and setting the events currently
-  * in the calendar
+  * Component responsible for setting the events currently in the calendar
   */
-  getCalendarEvents(): void {
-    this.sessionsService.getSessions()
-     .subscribe(sessions => this.filterSessionsInCalendar(sessions));
+  setCalendarEvents(sessions): void {
+    this.filterSessionsInCalendar(sessions);
   }
 
   /**
@@ -38,22 +39,31 @@ export class CalendarComponent implements OnInit {
     var filteredSessions = sessions.filter(session => session.isSelected);
 
     //Group sessions by the day when they occur, ignoring the time
-    var sessionsByDay = sessions.reduce((obj, session) =>
+    var sessionsByDay = filteredSessions.reduce((obj, session) =>
       SessionUtil.groupSessions(obj, session), {});
 
     //Create SessionsByDay and sort sessions
     var sortedSessions: SessionsByDay[] = Object.keys(sessionsByDay)
      .map((key) => SessionUtil.sortGroupedSessions(key, sessionsByDay));
 
-    this.calendarEvents = sortedSessions;
+    var sortedGroups: SessionsByDay[] = SessionUtil.sortGroups(sortedSessions);
+
+    this.calendarEvents = sortedGroups;
   }
 
   /**
-  * Upon initialization, retrieve the sessions that are in the calendar for
-  * display
+  * Initialize the sessions data on start time
   */
   ngOnInit() {
-    this.getCalendarEvents();
+    //Subscribe to any change in the session data
+    this.sessionsUpdateSubscription = this.sessionsService
+      .ghcSessionsChange.subscribe(sessions => this.setCalendarEvents(sessions))
+
+    this.sessionsService.getSessions().subscribe();
+  }
+
+  ngOnDestroy() {
+    this.sessionsUpdateSubscription.unsubscribe();
   }
 
   /**

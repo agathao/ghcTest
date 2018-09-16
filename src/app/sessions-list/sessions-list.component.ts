@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
 import { SessionsService } from '../sessions.service';
 import { SessionDetailComponent } from '../session-detail/session-detail.component';
 import { SessionsByDay } from '../sessionsByDay';
@@ -16,35 +17,40 @@ import SessionUtil from '../shared/session-util';
 })
 export class SessionsListComponent implements OnInit {
   sessionsByDay: SessionsByDay[];
+  sessionsUpdateSubscription: Subscription;
 
   constructor(private sessionsService: SessionsService,
     private modalService: NgbModal) {
   }
 
   /**
-  * Get all GHC Sessions from the service and group them as needed
+  * Groups and sets the sessions to the screen
   */
-  getAllSessions(): void {
-    this.sessionsService.getSessions()
-     .subscribe(sessions => {
+  setSessions(sessions): void {
+    var sessionsByDay = sessions.reduce((obj, session) =>
+    SessionUtil.groupSessions(obj, session), {});
 
-       //Group sessions by the day when they occur, ignoring the time
-       var sessionsByDay = sessions.reduce((obj, session) =>
-         SessionUtil.groupSessions(obj, session), {});
+    //Create SessionsByDay and sort sessions
+    var sortedSessions: SessionsByDay[] = Object.keys(sessionsByDay)
+      .map((key) => SessionUtil.sortGroupedSessions(key, sessionsByDay));
 
-       //Create SessionsByDay and sort sessions
-       var sortedSessions: SessionsByDay[] = Object.keys(sessionsByDay)
-        .map((key) => SessionUtil.sortGroupedSessions(key, sessionsByDay));
+    var sortedGroups: SessionsByDay[] = SessionUtil.sortGroups(sortedSessions);
 
-       this.sessionsByDay = sortedSessions;
-     });
+    this.sessionsByDay = sortedGroups;
   }
 
   /**
   * Upon initialization, retrieve all the sessions for display
   */
   ngOnInit() {
-    this.getAllSessions();
+    this.sessionsUpdateSubscription = this.sessionsService
+      .ghcSessionsChange.subscribe(sessions => this.setSessions(sessions));
+
+    this.sessionsService.getSessions().subscribe();
+  }
+
+  ngOnDestroy() {
+    this.sessionsUpdateSubscription.unsubscribe();
   }
 
   /**
@@ -68,8 +74,7 @@ export class SessionsListComponent implements OnInit {
   * @param sessionId - the if of the session being added to the calendar
   */
   addToCalendar(sessionId: number): void {
-    this.sessionsService.updateSession(sessionId, true)
-     .subscribe(() => console.log('updated'));
+    this.sessionsService.updateSession(sessionId, true).subscribe(_ => console.log('done'));
   }
 
   /**
@@ -77,7 +82,6 @@ export class SessionsListComponent implements OnInit {
   * @param sessionId - the if of the session being removed from the calendar
   */
   removeFromCalendar(sessionId: number): void {
-    this.sessionsService.updateSession(sessionId, false)
-     .subscribe(() => console.log('updated'));
+    this.sessionsService.updateSession(sessionId, false).subscribe(_ => console.log('done'));
   }
 }

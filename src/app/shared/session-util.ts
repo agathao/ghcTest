@@ -25,22 +25,12 @@ export default class SessionUtil {
             || session1.endTime - session2.endTime;
         });
 
-        return sessionGroup;
+        return sessionGroup; 
+    }
+
+    static sortGroups(sessionsByDay: SessionsByDay[]) {
+      return sessionsByDay.sort(function(group1, group2) {
+        return group1.day - group2.day;
+      });
     }
 }
-
-// groupSessions(sessions) = () => {
-//   sessions.reduce(function(obj, session){
-//     const sessionDate = new Date(session.startTime);
-//     sessionDate.setHours(0,0,0,0);
-//
-//     const key = sessionDate.toString();
-//
-//     obj[key] = obj[key] || [];
-//     obj[key].push(session);
-//
-//     return obj;
-//   }, {});
-// };
-//
-// export groupSessions;

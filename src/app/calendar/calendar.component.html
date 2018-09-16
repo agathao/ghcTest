@@ -2,7 +2,10 @@
   <h1>My Calendar</h1>
 </div>
 
-<div class="row pb-4 pr-2">
+<div class="row pb-4 pr-2 justify-content-center">
+  <div *ngIf="calendarEvents === undefined">
+    Your calendar is currently empty
+  </div>
   <div
     [ngClass]="{'col-sm-4': true, 'text-center': true, 'border-right': !isLast}"
     *ngFor="let calendarDay of calendarEvents; last as isLast"
