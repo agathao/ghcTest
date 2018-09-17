@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of, Subject, forkJoin } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+// import {  } from "rxjs/observable/forkJoin";
 import { Session } from './session';
 import { SESSIONSLIST } from './mock-sessions-list';
 
@@ -19,6 +20,7 @@ export class SessionsService {
 
   private getSessionsUrl = 'https://liks2l9a0b.execute-api.us-east-1.amazonaws.com/Stage/ghcsessions';
   private updateSessionsBaseUrl = 'https://q4fhvualcc.execute-api.us-east-1.amazonaws.com/Stage/ghcsessions/';
+  private getSessionByIdUrl = 'https://v0vhni7zq5.execute-api.us-east-1.amazonaws.com/Stage/ghcsessions/';
 
   ghcSessionsChange: Subject<Session[]> = new Subject<Session[]>();
 
@@ -63,6 +65,18 @@ export class SessionsService {
     // return of(SESSIONSLIST);
   }
 
+  // getSubset(sessionIds) {
+  //   console.log('Received ' + sessionIds);
+  //
+  //   var requests = sessionIds.map(function(sessionId) {
+  //     this.http.get<Session[]>(this.getSessionByIdUrl + sessionId);
+  //   });
+  //
+  //   forkJoin(requests).subscribe(results => {
+  //     console.log(results);
+  //   });
+  // }
+
   /**
   * Update the GHC Session in question to add it to or remove it from
   * the calendar
@@ -79,6 +93,7 @@ export class SessionsService {
       httpOptions).pipe(
         tap(_ => console.log(`updated session id=${sessionId}`)),
         tap(_ => this.getSessions().subscribe()),
+        // tap(response => this.getSubset(response)),
         catchError(this.handleError<any>('updateSession'))
     );
   }
