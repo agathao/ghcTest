@@ -64,8 +64,8 @@ export class SessionsListComponent implements OnInit {
   /**
   * Scrolls the window back to the workshopDescription element
   */
-  onScrollToTop(): void {
-    window.document.getElementById('workshopDescription').scrollIntoView();
+  onScroll(elementId: string): void {
+    window.document.getElementById(elementId).scrollIntoView();
   }
 
   /**

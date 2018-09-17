@@ -2,14 +2,34 @@
   <h1>GHC Sessions</h1>
 </div>
 
-<button
-  class="btn btn-secondary sticky-top float-right"
-  (click)="onScrollToTop()"
->
-  Back to Top
-</button>
+<div class="row sticky-top float-right pr-4">
+  <button
+    class="btn btn-secondary sticky-top float-right"
+    (click)="onScroll('Wednesday')"
+  >
+    Go to Wednesday
+  </button>
+  <button
+    class="btn btn-secondary"
+    (click)="onScroll('Thursday')"
+  >
+    Go to Thursday
+  </button>
+  <button
+    class="btn btn-secondary"
+    (click)="onScroll('Friday')"
+  >
+    Go to Friday
+  </button>
+  <button
+    class="btn btn-secondary"
+    (click)="onScroll('workshopDescription')"
+  >
+    Back to top
+  </button>
+</div>
 
-<div class="pt-4" *ngFor="let sessionsGroup of sessionsByDay">
+<div data-id="{{ sessionsGroup.day | date:'EEEE' }}" class="pt-4" *ngFor="let sessionsGroup of sessionsByDay">
   <div class="row pl-4">
     <h2>{{ sessionsGroup.day | date:'EEEE' }}</h2>
   </div>
@@ -34,11 +54,14 @@
               aria-hidden="true"
             ></span>
               {{ session.location ? session.location : ''}}
+            <span
+              class="oi oi-people pl-2"
+              *ngIf="session.audienceLevel"
+              title="Audience Level"
+              aria-hidden="true"
+            ></span>
+              {{ session.audienceLevel ? session.audienceLevel : '' }}
           </h6>
-
-          <p class="card-text text-center" *ngIf="session.hasConfict">
-            This session conflicts with another on your calendar
-          </p>
 
           <p class="card-text text-justify" *ngIf="session.description">
             {{ session.description | limitTo : 200 }}
@@ -73,6 +96,11 @@
             </div>
           </div>
         </div>
+
+        <div class="card-footer text-muted" *ngIf="session.hasConflict">
+            <i>This session conflicts with another on your calendar</i>
+        </div>
+
       </div>
     </div>
   </div>
