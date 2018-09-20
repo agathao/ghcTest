@@ -18,6 +18,7 @@ import SessionUtil from '../shared/session-util';
 export class SessionsListComponent implements OnInit {
   sessionsByDay: SessionsByDay[];
   sessionsUpdateSubscription: Subscription;
+  processingSession: number;
 
   constructor(private sessionsService: SessionsService,
     private modalService: NgbModal) {
@@ -46,7 +47,10 @@ export class SessionsListComponent implements OnInit {
     this.setSessions(this.sessionsService.ghcSessions);
 
     this.sessionsUpdateSubscription = this.sessionsService
-      .ghcSessionsChange.subscribe(sessions => this.setSessions(sessions));
+      .ghcSessionsChange.subscribe(sessions => {
+        this.setSessions(sessions);
+        this.processingSession = undefined;
+      });
   }
 
   ngOnDestroy() {
@@ -74,7 +78,10 @@ export class SessionsListComponent implements OnInit {
   * @param sessionId - the if of the session being added to the calendar
   */
   addToCalendar(sessionId: number): void {
-    this.sessionsService.updateSession(sessionId, true).subscribe(_ => console.log('done'));
+    this.processingSession = sessionId;
+    this.sessionsService.updateSession(sessionId, true).subscribe(_ => {
+      console.log(`Added session id=${sessionId} to calendar`);
+    });
   }
 
   /**
@@ -82,6 +89,9 @@ export class SessionsListComponent implements OnInit {
   * @param sessionId - the if of the session being removed from the calendar
   */
   removeFromCalendar(sessionId: number): void {
-    this.sessionsService.updateSession(sessionId, false).subscribe(_ => console.log('done'));
+    this.processingSession = sessionId;
+    this.sessionsService.updateSession(sessionId, false).subscribe(_ => {
+      console.log(`Removed session id=${sessionId} from calendar`);
+    });
   }
 }

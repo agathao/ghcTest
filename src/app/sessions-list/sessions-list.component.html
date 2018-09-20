@@ -80,14 +80,15 @@
               <span class="float-right">
                 <button
                   *ngIf="!session.isSelected"
-                  class="btn btn-primary btn-sm"
+                  [ngClass]="{'btn': true, 'btn-primary': true, 'btn-sm': true, 'disabled': processingSession === session.id}"
                   (click)="addToCalendar(session.id)"
                 >
                   Add to Calendar
                 </button>
                 <button
+                  [id] = "'removeFromCalendar' + session.id"
                   *ngIf="session.isSelected"
-                  class="btn btn-danger btn-sm"
+                  [ngClass]="{'btn': true, 'btn-danger': true, 'btn-sm': true, 'disabled': processingSession === session.id}"
                   (click)="removeFromCalendar(session.id)"
                 >
                   Remove from Calendar
