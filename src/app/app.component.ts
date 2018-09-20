@@ -8,7 +8,7 @@ import { SessionsService } from './sessions.service';
 })
 export class AppComponent {
   title = 'GHC Sessions Scheduler';
-  description = 'View all sessions been held at GHC and add the ones you are most interested in to your calendar.';
+  description = 'View all events being held at GHC and add the ones you are most interested in to your calendar.';
 
   constructor(private sessionsService: SessionsService) {
     //Populate the sessions data to make it available for the rest

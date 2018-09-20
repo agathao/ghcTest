@@ -55,6 +55,8 @@ export class CalendarComponent implements OnInit {
   * Upon initialization, retrieve all the sessions for display
   */
   ngOnInit() {
+    this.setCalendarEvents(this.sessionsService.ghcSessions);
+
     this.sessionsUpdateSubscription = this.sessionsService
       .ghcSessionsChange.subscribe(sessions =>
         this.setCalendarEvents(sessions));

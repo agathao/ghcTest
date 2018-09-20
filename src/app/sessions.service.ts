@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of, Subject, forkJoin } from 'rxjs';
+import { Observable, of, Subject, Subscription } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-// import {  } from "rxjs/observable/forkJoin";
 import { Session } from './session';
 import { SESSIONSLIST } from './mock-sessions-list';
 
@@ -18,64 +17,63 @@ const httpOptions = {
 })
 export class SessionsService {
 
-  private getSessionsUrl = 'https://liks2l9a0b.execute-api.us-east-1.amazonaws.com/Stage/ghcsessions';
-  private updateSessionsBaseUrl = 'https://q4fhvualcc.execute-api.us-east-1.amazonaws.com/Stage/ghcsessions/';
-  private getSessionByIdUrl = 'https://v0vhni7zq5.execute-api.us-east-1.amazonaws.com/Stage/ghcsessions/';
+  private getSessionsUrl = undefined;
+  private updateSessionsBaseUrl = undefined;
 
   ghcSessionsChange: Subject<Session[]> = new Subject<Session[]>();
+  sessionsUpdateSubscription: Subscription;
+  ghcSessions: Session[] = [];
 
   constructor(private http: HttpClient) {
+    this.sessionsUpdateSubscription = this.ghcSessionsChange
+      .subscribe(sessions => this.ghcSessions = sessions);
   }
 
   /**
   * Get all GHC Sessions from the server
   */
   getSessions(): Observable<Session[]> {
+
+    if (!this.getSessionsUrl) {
+      var sessions: Session[] = this.transformResponse(SESSIONSLIST);
+
+      this.ghcSessionsChange.next(sessions);
+      console.log(sessions);
+
+      return of(sessions);
+    }
+
     return this.http.get<Session[]>(this.getSessionsUrl)
     .pipe(
-      tap(response => {
-        this.log('fetched sessions');
-      }),
-      map(
-        response => {
-          return response.map(
-            //Convert server session to the format that the front end expects
-            (serverSession) => {
-
-              var startTime = serverSession.startDate + " " + serverSession.startTime + " EST";
-              var endTime = serverSession.startDate + " " + serverSession.endTime + " EST";
-
-              serverSession.startTime = new Date(startTime);
-              serverSession.endTime = new Date(endTime);
-
-              serverSession.isSelected ? serverSession.isSelected = true
-                : serverSession.isSelected = false;
-              serverSession.hasConflict ? serverSession.hasConflict = true
-                : serverSession.hasConflict = false;
-
-              return serverSession;
-            }
-          )
-        }
-      ),
+      tap(response => this.log('fetched sessions')),
+      map(response => this.transformResponse(response)),
       //Propagate change in the sessions to all subscribers
       tap(sessions => this.ghcSessionsChange.next(sessions)),
       catchError(this.handleError('getSessions', []))
     );
-    // return of(SESSIONSLIST);
   }
 
-  // getSubset(sessionIds) {
-  //   console.log('Received ' + sessionIds);
-  //
-  //   var requests = sessionIds.map(function(sessionId) {
-  //     this.http.get<Session[]>(this.getSessionByIdUrl + sessionId);
-  //   });
-  //
-  //   forkJoin(requests).subscribe(results => {
-  //     console.log(results);
-  //   });
-  // }
+  transformResponse(response) {
+    return response.map(
+      //Convert server session to the format that the front end expects
+      (serverSession) => {
+
+        var startTime = serverSession.startDate + " " + serverSession.startTime + " EST";
+        var endTime = serverSession.startDate + " " + serverSession.endTime + " EST";
+
+        serverSession.startTime = new Date(startTime);
+        serverSession.endTime = new Date(endTime);
+
+        serverSession.isSelected ? serverSession.isSelected = true
+          : serverSession.isSelected = false;
+        serverSession.hasConflict ? serverSession.hasConflict = true
+          : serverSession.hasConflict = false;
+
+        return serverSession;
+      }
+    );
+  }
+
 
   /**
   * Update the GHC Session in question to add it to or remove it from
@@ -89,11 +87,10 @@ export class SessionsService {
       isSelected: isSelected ? 1 : 0
     };
 
-    return this.http.post(this.updateSessionsBaseUrl + sessionId, updateInfo,
-      httpOptions).pipe(
-        tap(_ => console.log(`updated session id=${sessionId}`)),
+    return this.http.post(this.updateSessionsBaseUrl.replace('{id}', sessionId.toString()),
+      updateInfo, httpOptions).pipe(
+        tap(_ => this.log(`updated session id=${sessionId}`)),
         tap(_ => this.getSessions().subscribe()),
-        // tap(response => this.getSubset(response)),
         catchError(this.handleError<any>('updateSession'))
     );
   }

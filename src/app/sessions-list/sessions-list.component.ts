@@ -43,9 +43,10 @@ export class SessionsListComponent implements OnInit {
   * Upon initialization, retrieve all the sessions for display
   */
   ngOnInit() {
+    this.setSessions(this.sessionsService.ghcSessions);
+
     this.sessionsUpdateSubscription = this.sessionsService
       .ghcSessionsChange.subscribe(sessions => this.setSessions(sessions));
-
   }
 
   ngOnDestroy() {
